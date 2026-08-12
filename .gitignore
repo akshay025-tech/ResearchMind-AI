@@ -36,3 +36,6 @@ data/processed/
 # Node
 node_modules/
 npm-debug.log*
+
+# Local vector database
+backend/chroma_db/
