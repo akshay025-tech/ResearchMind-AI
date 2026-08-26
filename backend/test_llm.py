@@ -2,6 +2,7 @@ from app.services.embedding_service import generate_embeddings
 from app.services.vector_store import search_documents
 from app.services.context_builder import build_context
 from app.services.llm_service import generate_answer
+from app.services.citation_service import format_citations
 
 
 question = "What are the four major layers of FinRobot?"
@@ -15,7 +16,7 @@ results = search_documents(
     top_k=5
 )
 
-# 3. Build context from retrieved chunks
+# 3. Build LLM context and structured sources
 context, sources = build_context(results)
 
 # 4. Generate grounded answer
@@ -24,8 +25,12 @@ answer = generate_answer(
     context=context
 )
 
+# 5. Format citations
+citations = format_citations(sources)
+
+
 print("=" * 60)
-print("RESEARCHMIND RAG TEST")
+print("RESEARCHMIND RAG RESPONSE")
 print("=" * 60)
 
 print("\nQUESTION:")
@@ -35,9 +40,9 @@ print("\nANSWER:")
 print(answer)
 
 print("\nSOURCES:")
-for source in sources:
-    print(source)
+for citation in citations:
+    print(citation)
 
 print("\n" + "=" * 60)
-print("RAG GENERATION COMPLETED")
+print("COMPLETE RAG RESPONSE GENERATED")
 print("=" * 60)
